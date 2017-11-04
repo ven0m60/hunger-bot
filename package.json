@@ -2,9 +2,15 @@
   "name": "hunger-bot",
   "version": "1.0.0",
   "description": "A chatbot for hungry people",
+  "engines": {
+    "node": "8.9.0"
+  },
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dist/index.js",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -15,5 +21,10 @@
   "bugs": {
     "url": "https://github.com/ven0m60/hunger-bot/issues"
   },
-  "homepage": "https://github.com/ven0m60/hunger-bot#readme"
+  "homepage": "https://github.com/ven0m60/hunger-bot#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.1"
+  }
 }
