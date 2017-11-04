@@ -15,12 +15,10 @@ app.set("port", process.env.PORT || 5000);
 
 
 /**
- * Error Handler
+ * Handle 404 Errors
  */
- app.use((req, res, next) => {
-   const err = new Error("Not Found");
-   err.status = 404;
-   next(err);
+ app.use((req, res) => {
+   res.sendStatus(404);
  });
 
 /**
