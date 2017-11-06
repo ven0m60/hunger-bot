@@ -16,7 +16,7 @@ app.set("view engine", "pug");
 app.use(morgan("combined"));
 
 // Set Routes
-app.use("/messenger", messenger);
+app.use("/messenger", messenger.router);
 
 // Handle 404 Errors
  app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -31,6 +31,8 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
 });
 
 // Start Express Server
-app.listen(app.get("port"), () => {
+const server: any = app.listen(app.get("port"), () => {
   console.log(("Express server listening on port %d in %s mode"), app.get("port"), app.settings.env);
 });
+
+export { server } ;

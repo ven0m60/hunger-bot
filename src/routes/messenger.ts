@@ -27,7 +27,7 @@ function verifyRequestSignature(req: express.Request, res: express.Response, buf
     const elements = signature.split("=");
     const signatureHash = elements[1];
 
-    const expectedHash = crypto.createHmac("sha1", "process.env.FB_SECRET")
+    const expectedHash = crypto.createHmac("sha1", process.env.FB_SECRET)
       .update(buf)
       .digest("hex");
 
@@ -39,21 +39,18 @@ function verifyRequestSignature(req: express.Request, res: express.Response, buf
   }
 }
 
-function abortOnError(err: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
-  if (err) {
-    next(err);
-  } else {
-    next();
-  }
-}
+// Only accept 'application/json' content types
 
-router.use(bodyParser.json({ verify: verifyRequestSignature }));
+router.use(bodyParser.json({ type: "*/*", verify: verifyRequestSignature }));
 
 // Used by Facebook to verify the correct webhook location for the application
 
 router.get("/", (req: express.Request, res: express.Response) => {
-  if (req.query["hub.verify_token"] === process.env.FB_TOKEN) {
-    res.status(200).send(req.query["hub.challenges"]);
+  if (
+    req.query["hub.verify_token"] === process.env.FB_VERIFY_TOKEN &&
+    req.query["hub.mode"] === "subscribe"
+  ) {
+    res.status(200).send(req.query["hub.challenge"]);
   } else {
     const err = new Error( "Token could not be verified" );
     err["status"] = 403;
@@ -64,15 +61,13 @@ router.get("/", (req: express.Request, res: express.Response) => {
 
 // Used by Facebook to send interactions to the application
 router.post("/", (req: express.Request, res: express.Response) => {
-/**
- * Send status back to Facebook so that duplicate messages are not
- * received in the event that a request takes a while to process
- */
-  res.sendStatus(200);
-
   const data = req.body;
-
   if (data.object === "page") {
+    /**
+     * Send status back to Facebook so that duplicate messages are not
+     * received in the event that a request takes a while to process
+     */
+    res.sendStatus(200);
     data.entry.forEach((pageEntry: any) => {
       pageEntry.messaging.forEach((messagingEvent: any) => {
         console.log({ messagingEvent });
@@ -88,9 +83,11 @@ router.post("/", (req: express.Request, res: express.Response) => {
         }
       });
     });
+  } else {
+    const err = new Error("Invalid request structure");
+    err["status"] = 422;
+    throw err;
   }
 });
 
-router.use(abortOnError);
-
-export = router;
+export { router };

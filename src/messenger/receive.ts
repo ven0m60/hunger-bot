@@ -1,5 +1,9 @@
+/**
+ * handlePostback - Postback event handler triggered by a postback
+ */
+
 export let handlePostback = (event: any) => {
-  const type: string = JSON.parse(event.postback.payload);
+  const type: any = JSON.parse(event.postback.payload);
   const senderId: string = event.sender.id;
 
   switch (type) {
@@ -13,5 +17,12 @@ export let handlePostback = (event: any) => {
 };
 
 export let handleMessage = (event: any) => {
-  console.log();
+  const message: any = event.message;
+  const senderId: string = event.sender.id;
+
+  // send.sendReadReceipt(senderId);
+
+  if (message.text) {
+    console.log("TO_DO");
+  }
 };
