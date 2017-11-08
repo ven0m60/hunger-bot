@@ -1,28 +1,54 @@
-/**
- * handlePostback - Postback event handler triggered by a postback
- */
+import * as ai from "../dialog/ai";
+
+ // handlePostback - Postback event handler triggered by a POST to Messenger webhook
 
 export let handlePostback = (event: any) => {
-  const type: any = JSON.parse(event.postback.payload);
+  const type: string = JSON.parse(event.postback.payload);
   const senderId: string = event.sender.id;
-
   switch (type) {
     case "GET_STARTED":
-       console.log("TO_DO");
+       ai.textRequest(type, senderId);
        break;
     default:
-       console.log("Unknown Postback");
+       console.log("Unknown Postback: ", event);
        break;
   }
 };
 
+// handleMessage - Message event handler triggered by a POST to Messenger webhook
+
 export let handleMessage = (event: any) => {
   const message: any = event.message;
+  let text: string = undefined;
   const senderId: string = event.sender.id;
 
   // send.sendReadReceipt(senderId);
 
+ // Plain text message
   if (message.text) {
-    console.log("TO_DO");
+    text = message.text;
+     ai.textRequest(text, senderId);
+  }
+ // Quick Replies
+    else if (message.quick_reply) {
+    text = message.quick_reply.payload;
+     ai.textRequest(text, senderId);
+  }
+ // Attachments
+    else if (message.attachments) {
+    for (let attachment of message.attachments) {
+ // Location Payload
+      if (message.attachments[attachment].type === "location") {
+        text = "lat:" + message.attachments[attachment].payload.coordinates.lat
+        + ", lon:" + message.attachments[attachment].payload.coordinates.long;
+        console.log("TO_DO");
+      }
+ // Multimedia Attachment
+      else {
+        text = "UNKNOWN_ATTACHMENT";
+        console.log("TO_DO");
+      }
+       ai.textRequest(text, senderId);
+    }
   }
 };

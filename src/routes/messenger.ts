@@ -78,7 +78,7 @@ router.post("/", (req: express.Request, res: express.Response) => {
         } else {
           console.log(
             "Webhook received unknown messagingEvent: ",
-            messagingEvent,
+            messagingEvent
           );
         }
       });
