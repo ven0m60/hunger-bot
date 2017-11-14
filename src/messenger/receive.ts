@@ -1,4 +1,5 @@
 import * as ai from "../dialog/ai";
+import * as send from "./send";
 
  // handlePostback - Postback event handler triggered by a POST to Messenger webhook
 
@@ -22,7 +23,7 @@ export let handleMessage = (event: any) => {
   let text: string = undefined;
   const senderId: string = event.sender.id;
 
-  // send.sendReadReceipt(senderId);
+  send.sendReadReceipt(senderId);
 
  // Plain text message
   if (message.text) {
@@ -41,7 +42,7 @@ export let handleMessage = (event: any) => {
       if (message.attachments[attachment].type === "location") {
         text = "lat:" + message.attachments[attachment].payload.coordinates.lat
         + ", lon:" + message.attachments[attachment].payload.coordinates.long;
-        console.log("TO_DO");
+        ai.textRequest(text, senderId);
       }
  // Multimedia Attachment
       else {
