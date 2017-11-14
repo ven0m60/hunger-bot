@@ -14,7 +14,6 @@ export let textRequest = (text: string, sender: string) => {
     const customPayload: any = response.result.fulfillment.messages.filter(retrieveCustomPayload);
     if (!message && !customPayload) {
       const err = new Error("Invalid response from AI");
-      err["status"] = 500;
       throw err;
     } else {
       send.sendMessage(sender, message, customPayload);
@@ -29,11 +28,11 @@ export let textRequest = (text: string, sender: string) => {
 
 export let retrieveText = (messages: any): string => {
   const text: any = messages.type === 0 && !messages.hasOwnProperty("platform") && messages.hasOwnProperty("speech");
+  console.log(text);
   if (text.length <= 1) {
     return text[0].speech;
   } else {
     const err = new Error("Invalid response from AI");
-    err["status"] = 500;
     throw err;
   }
 };
@@ -44,7 +43,6 @@ export let retrieveCustomPayload = (messages: any): any => {
     return payloadBody[0].payload;
   } else {
     const err = new Error("Invalid response from AI");
-    err["status"] = 500;
     throw err;
   }
 };
