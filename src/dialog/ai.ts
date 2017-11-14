@@ -27,6 +27,7 @@ export let textRequest = (text: string, sender: string) => {
 };
 
 export let retrieveText = (messages: any): string => {
+  console.log(messages);
   const text: any = messages.type === 0 && !messages.hasOwnProperty("platform") && messages.hasOwnProperty("speech");
   console.log("text: ", text.length);
   if (text.length <= 1) {
