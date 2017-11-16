@@ -8,7 +8,7 @@ export let handlePostback = (event: any) => {
   const senderId: string = event.sender.id;
   switch (type) {
     case "GET_STARTED":
-       ai.textRequest(type, senderId);
+       ai.eventRequest(type, senderId);
        break;
     default:
        console.log("Unknown Postback: ", event);
