@@ -21,13 +21,13 @@ export let textRequest = (text: string, sender: string) => {
       } else {
       const err = new Error("Invalid response from AI");
       throw err;
-    } else {
-      send.sendMessage(sender, message, customPayload);
-    }
+      }
   });
+
   request.on("error", (error) => {
   console.log(error);
   });
+
   request.end();
 };
 
