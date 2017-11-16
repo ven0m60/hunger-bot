@@ -7,7 +7,7 @@ export let handlePostback = (event: any) => {
   const type: string = JSON.parse(event.postback.payload);
   const senderId: string = event.sender.id;
   switch (type) {
-    case "GET_STARTED":
+    case "GET_STARTED_PAYLOAD":
       const aiEvent = {name: type};
        ai.eventRequest(aiEvent, senderId);
        break;
