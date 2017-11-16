@@ -4,8 +4,7 @@ import * as send from "./send";
  // handlePostback - Postback event handler triggered by a POST to Messenger webhook
 
 export let handlePostback = (event: any) => {
-  const type: string = JSON.parse(event.postback.payload);
-  console.log(type);
+  const type: string = event.postback.payload;
   const senderId: string = event.sender.id;
   switch (type) {
     case "GET_STARTED_PAYLOAD":
