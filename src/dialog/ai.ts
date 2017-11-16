@@ -17,7 +17,7 @@ export let textRequest = (text: string, sender: string) => {
   request.end();
 };
 
-export let eventRequest = (event: string, sender: string) => {
+export let eventRequest = (event: any, sender: string) => {
   const request = app.eventRequest(event, {
     sessionId: sender
   });
@@ -31,9 +31,11 @@ export let eventRequest = (event: string, sender: string) => {
   request.end();
 };
 
-const handleResponse = (response: response) => {
+const handleResponse = (response: any) => {
+  const sender: string = response.sessionId;
   const messages: any = response.result.fulfillment.messages.filter(retrieveText);
   const customPayloads: any = response.result.fulfillment.messages.filter(retrieveCustomPayload);
+
   if (messages.length > 0 && customPayloads.length > 0) {
     const payload: any = customPayloads[0].payload;
     payload.text = messages[0].speech;
