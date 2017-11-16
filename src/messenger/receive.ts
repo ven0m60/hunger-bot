@@ -20,6 +20,7 @@ export let handlePostback = (event: any) => {
 
 export let handleMessage = (event: any) => {
   const message: any = event.message;
+  console.log(JSON.stringify(message, null, 4));
   let text: string = undefined;
   const senderId: string = event.sender.id;
 
