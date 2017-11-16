@@ -13,8 +13,11 @@ export let textRequest = (text: string, sender: string) => {
 
     const messages: any = response.result.fulfillment.messages.filter(retrieveText);
     const customPayloads: any = response.result.fulfillment.messages.filter(retrieveCustomPayload);
-
-    if (messages.length > 0) {
+    if (messages.length > 0 && customPayloads.length > 0) {
+      const payload: any = customPayloads[0];
+      payload.text = messages[0].speech;
+      send.sendCustomMessage(sender, payload);
+    } else if (messages.length > 0) {
       send.sendTextMessage(sender, messages[0].speech);
     } else if (customPayloads.length > 0) {
       send.sendCustomMessage(sender, customPayloads[0]);
