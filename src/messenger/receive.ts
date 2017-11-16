@@ -20,7 +20,7 @@ export let handlePostback = (event: any) => {
 
 export let handleMessage = (event: any) => {
   const message: any = event.message;
-  console.log(JSON.stringify(message, null, 4));
+  console.log(JSON.stringify(message, undefined, 4));
   let text: string = undefined;
   const senderId: string = event.sender.id;
 
@@ -38,7 +38,7 @@ export let handleMessage = (event: any) => {
   }
  // Attachments
     else if (message.attachments) {
-    for (let attachment of message.attachments) {
+    for (const attachment of message.attachments) {
  // Location Payload
       if (attachment.type === "location") {
         text = "lat:" + attachment.payload.coordinates.lat
@@ -48,9 +48,8 @@ export let handleMessage = (event: any) => {
  // Multimedia Attachment
       else {
         text = "UNKNOWN_ATTACHMENT";
-        console.log("TO_DO");
+        ai.textRequest(text, senderId);
       }
-       ai.textRequest(text, senderId);
     }
   }
 };

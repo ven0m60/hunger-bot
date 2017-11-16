@@ -9,7 +9,7 @@ export let textRequest = (text: string, sender: string) => {
   });
 
   request.on("response", (response) => {
-    console.log(JSON.stringify(response, null, 4));
+    console.log(JSON.stringify(response, undefined, 4));
 
     const messages: any = response.result.fulfillment.messages.filter(retrieveText);
     const customPayloads: any = response.result.fulfillment.messages.filter(retrieveCustomPayload);
