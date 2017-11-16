@@ -40,9 +40,9 @@ export let handleMessage = (event: any) => {
     else if (message.attachments) {
     for (let attachment of message.attachments) {
  // Location Payload
-      if (message.attachments[attachment].type === "location") {
-        text = "lat:" + message.attachments[attachment].payload.coordinates.lat
-        + ", lon:" + message.attachments[attachment].payload.coordinates.long;
+      if (attachment.type === "location") {
+        text = "lat:" + attachment.payload.coordinates.lat
+        + ", lon:" + attachment.payload.coordinates.long;
         ai.textRequest(text, senderId);
       }
  // Multimedia Attachment
