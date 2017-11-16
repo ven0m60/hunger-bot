@@ -39,30 +39,27 @@ export let sendReadReceipt = (recipientId: string) => {
 };
 
 // Send message using the Send API
-export let sendMessage = (recipientId: string, message?: any, customPayload?: any) => {
-  let payload: any;
-  if (message) {
-    payload = {
+export let sendTextMessage = (recipientId: string, messageBody: string) => {
+  const payload: any = {
       messaging_type: "RESPONSE",
       recipient: {
         id: recipientId,
       },
       message: {
-        text: message,
-        customPayload
+        text: messageBody,
       },
     };
-  } else {
-    payload = {
-      messaging_type: "RESPONSE",
-      recipient: {
-        id: recipientId,
-      },
-      message: {
-        customPayload
-      },
-    };
-  }
+  callAPI(payload);
+};
+
+export let sendCustomMessage = (recipientId: string, messageBody: any) => {
+  const payload: any = {
+    messaging_type: "RESPONSE",
+    recipient: {
+      id: recipientId,
+    },
+    message: messageBody,
+  };
   callAPI(payload);
 };
 

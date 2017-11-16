@@ -12,12 +12,13 @@ export let textRequest = (text: string, sender: string) => {
     console.log(response);
 
     const messages: any = response.result.fulfillment.messages.filter(retrieveText);
-    const message: string = messages[0].speech;
-
     const customPayloads: any = response.result.fulfillment.messages.filter(retrieveCustomPayload);
-    const customPayload: any = customPayloads[0].payload;
 
-    if (!message && !customPayload) {
+    if (messages.length > 0) {
+      send.sendTextMessage(sender, messages[0].speech);
+    } else if (customPayloads.length > 0) {
+      send.sendCustomMessage(sender, customPayloads[0]);
+      } else {
       const err = new Error("Invalid response from AI");
       throw err;
     } else {
