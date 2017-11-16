@@ -42,9 +42,14 @@ export let handleMessage = (event: any) => {
     for (const attachment of message.attachments) {
  // Location Payload
       if (attachment.type === "location") {
-        text = "lat:" + attachment.payload.coordinates.lat
-        + ", lon:" + attachment.payload.coordinates.long;
-        ai.textRequest(text, senderId);
+        const aiEvent = {
+          name: "LOCATION",
+          data: {
+            latitude: attachment.payload.coordinates.lat,
+            longitude: attachment.payload.coordinates.long
+          }
+        };
+        ai.eventRequest(aiEvent, senderId);
       }
  // Multimedia Attachment
       else {
