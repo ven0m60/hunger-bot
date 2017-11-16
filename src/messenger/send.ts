@@ -74,6 +74,8 @@ export let callAPI = (messageData: any) => {
     if (!error && response.statusCode === 200) {
       console.log("Message successfully sent to Facebook");
     } else {
+      console.log(error);
+      console.log(messageData);
       throw error;
     }
   });
