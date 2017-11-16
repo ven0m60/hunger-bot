@@ -74,7 +74,6 @@ router.post("/", (req: express.Request, res: express.Response) => {
         if (messagingEvent.message) {
           receive.handleMessage(messagingEvent);
         } else if (messagingEvent.postback) {
-          console.log("I'm a postback");
           receive.handlePostback(messagingEvent);
         } else {
           console.log(

@@ -5,6 +5,7 @@ import * as send from "./send";
 
 export let handlePostback = (event: any) => {
   const type: string = JSON.parse(event.postback.payload);
+  console.log(type);
   const senderId: string = event.sender.id;
   switch (type) {
     case "GET_STARTED_PAYLOAD":
