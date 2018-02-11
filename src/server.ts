@@ -3,6 +3,7 @@ import * as express from "express";
 import * as morgan from "morgan";
 import * as dotenv from "dotenv";
 import * as messenger from "./routes/messenger";
+import * as ai from "./routes/ai";
 
 // Load environment variables from .env
 dotenv.config({ path: ".env" });
@@ -17,6 +18,7 @@ app.use(morgan("combined"));
 
 // Set Routes
 app.use("/messenger", messenger.router);
+app.use("/webhook-ai", ai.router);
 
 // Handle 404 Errors
  app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
