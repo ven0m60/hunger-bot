@@ -1,4 +1,4 @@
-import * as ai from "../dialog/ai";
+import * as ai from "../apiai/messaging";
 import * as send from "./send";
 
  // handlePostback - Postback event handler triggered by a POST to Messenger webhook

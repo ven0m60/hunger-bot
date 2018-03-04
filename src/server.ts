@@ -1,12 +1,12 @@
+// Load environment variables from .env
+import * as dotenv from "dotenv";
+dotenv.config({ path: ".env" });
+
 // Module Dependencies
 import * as express from "express";
 import * as morgan from "morgan";
-import * as dotenv from "dotenv";
 import * as messenger from "./routes/messenger";
 import * as ai from "./routes/ai";
-
-// Load environment variables from .env
-dotenv.config({ path: ".env" });
 
 // Create Express Server
 const app = express();

@@ -28,13 +28,39 @@ describe("Dialogflow Webhook Routes", () => {
             });
       });
 
-      it("Authorized request to Dialogflow Fulfilment Webhook", (done) => {
+      it("Authorized request to Dialogflow Fulfilment Webhook with No Action", (done) => {
+        chai.request(server)
+          .post("/webhook-ai")
+          .set("Content-Type", "application/json")
+          .send({ result: {noAction: ""}})
+          .auth(process.env.AI_USER, process.env.AI_PASSWORD)
+          .end((err, res) => {
+            res.should.have.status(400);
+            done();
+          });
+      });
+
+      it("Authorized request to Dialogflow Fulfilment Webhook with Unknown Action", (done) => {
         chai.request(server)
           .post("/webhook-ai")
           .set("Content-Type", "application/json")
           .auth(process.env.AI_USER, process.env.AI_PASSWORD)
+          .send({ result: {action: "unknown-action"}})
+          .end((err, res) => {
+            res.should.have.status(422);
+            done();
+          });
+      });
+
+      it("Authorized request to Dialogflow Fulfilment Webhook with geocode-location Action", (done) => {
+        chai.request(server)
+          .post("/webhook-ai")
+          .set("Content-Type", "application/json")
+          .auth(process.env.AI_USER, process.env.AI_PASSWORD)
+          .send({ result: {action: "geocode-location", resolvedQuery: "Ivanhoe"}})
           .end((err, res) => {
             res.should.have.status(200);
+            console.log(res.body);
             done();
           });
       });
