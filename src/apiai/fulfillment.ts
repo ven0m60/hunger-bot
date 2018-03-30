@@ -1,13 +1,12 @@
 import * as geocoding from "../google/geocoding";
 
-export let geocodeLocation = (request: any) => {
+export let geocodeLocation = (request: any, callback: any) => {
   const location: string = request.result.resolvedQuery;
-  geocoding.geocodeLookup(location, (err: any, res: any) => {
+  geocoding.geocodeLookup(location, (err: Error, res: any) => {
     if (err) {
-      throw err;
+      callback(err, undefined);
     } else {
-      console.log(res);
-      return res;
+      callback(undefined, res);
     }
   });
 };

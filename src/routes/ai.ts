@@ -27,11 +27,19 @@ router.use(bodyParser.json({ type: "*/*", verify: verifyAuth}));
 // Used by Dialogflow for webhook fulfillment
 router.post("/", (req: express.Request, res: express.Response) => {
   const data = req.body;
+  let responseBody: any = undefined;
   console.log(data);
   if (data.result.action) {
     switch (data.result.action) {
       case "geocode-location": {
-        const responseBody: any = fulfillment.geocodeLocation(data);
+        fulfillment.geocodeLocation(data, (err: Error, res: any) => {
+          if (err) {
+            throw err;
+          } else {
+            console.log(res);
+            responseBody = res;
+          }
+        });
         res.status(200).json(responseBody);
         break;
       }

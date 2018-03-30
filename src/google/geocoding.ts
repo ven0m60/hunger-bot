@@ -1,6 +1,6 @@
 import * as request from "request";
 
-export let geocodeLookup = (location: string, callback: any) => {
+export let geocodeLookup = (location: string, callback: any): void => {
   const host: string = "https://maps.googleapis.com/maps/api";
   const address: string = location;
   const apiKey: string = process.env.GOOGLE_TOKEN;
@@ -9,7 +9,7 @@ export let geocodeLookup = (location: string, callback: any) => {
   let err: Error = undefined;
   let json: any = undefined;
 
-  request.get(url, (error, res, body) => {
+  request.get(url, (error, res, body): void => {
     if (error) {
       err = new Error("google.geocoding.geocodeLookup Error: " + error);
       err["status"] = 500;
